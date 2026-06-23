@@ -1,0 +1,46 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Defines variable dimensions for X. Defines y as np.exp(x) function. 
+x = np.linspace(0, 3, 200)
+y = np.exp(x)
+
+#Taylor series 1st order
+T1 = 1 + x
+
+#Taylor series 4th order
+T4 = 1 + x + x**2/2 + x**3/6 + x**4/24
+
+#Error formula, difference in output and taylor series calculations. Uses np.abs to calculate relative error.
+err_T1 = np.abs((y - T1) / y)
+err_T4 = np.abs((y - T4) / y)
+
+#Creates figure for plotting with a ten by ten dimension
+plt.figure(figsize=(10, 10))
+
+#Creates first sublot in a 2x2 and labels the plot, includes legend
+plt.subplot(221)
+plt.plot(x, y, label='e^x')
+plt.plot(x, T1, '--', label='1+x')
+plt.title("f(x) and T1(x)")
+plt.legend()
+
+#Plots the first relative error for 1st order Taylor Series
+plt.subplot(222)
+plt.plot(x, err_T1, 'r')
+plt.title("Relative Error: T1(x)")
+
+#Creates 3rd plots exponential and 4th order Taylor Series, includes legend
+plt.subplot(223)
+plt.plot(x, y, label='e^x')
+plt.plot(x, T4, '--', label='T4(x)')
+plt.title("f(x) and T4(x)")
+plt.legend()
+
+#Plots relative error for 4th order Taylor Series
+plt.subplot(224)
+plt.plot(x, err_T4, 'g')
+plt.title("Relative Error: T4(x)")
+
+plt.tight_layout()
+plt.show()
