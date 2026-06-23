@@ -1,0 +1,50 @@
+% Bifurcation and Lyapunov Exponents of CubicMap
+
+% Parameters and iterations
+a_vals = linspace(2, 4, 1000);     % Domain of a values on graph
+n_iterations = 1000;              % n iterations of the cubic map
+n_discard = 500;                  % Discard n transients
+x0 = 0.1;                         % Begin at intial condition 0.1
+
+% Arrays
+lyap = zeros(size(a_vals));
+bifurcation_a = [];
+bifurcation_x = [];
+
+
+% Nested for loops and if statement for cubic map and lyapunov exp.
+for i = 1:length(a_vals)
+    a = a_vals(i);
+    x = x0;
+    lyap_sum = 0;
+
+    for n = 1:n_iterations
+        x = a*x^3 + (1 - a)*x;
+
+        % Only plot after transients
+        if n > n_discard
+            bifurcation_a(end+1) = a;
+            bifurcation_x(end+1) = x;
+
+            % Derivative of the cubic map
+            df = 3*a*x^2 + (1 - a);
+            lyap_sum = lyap_sum + log(abs(df));
+        end
+    end
+
+    lyap(i) = lyap_sum / (n_iterations - n_discard);
+end
+
+% First subplot, bifurcation for cubic map and parameter a
+figure;
+subplot(2,1,1)
+plot(bifurcation_a, bifurcation_x, '.k', 'MarkerSize', 0.1);
+xlabel('a'); ylabel('x');
+title('Bifurcation Diagram for Cubic Map');
+
+% Second subplot, lyapunov exp. behavior for a
+subplot(2,1,2)
+plot(a_vals, lyap, 'b');
+yline(0, '--k');
+xlabel('a'); ylabel('Lyapunov Exponent');
+title('Lyapunov Exponents for Cubic Map');
