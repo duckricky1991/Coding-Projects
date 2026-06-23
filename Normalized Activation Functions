@@ -1,0 +1,33 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Activation functions
+def Logistic(x):
+    return 1 / (1 + np.exp(-x))
+
+def Tanh(x):
+    return np.tanh(x)
+
+def relu(x):
+    return np.maximum(0, x)
+
+# Sample points
+x = np.linspace(-10, 10, 1000)
+
+# Plot normalized activations
+plt.figure(figsize=(8, 6))
+for name, func in [('Logistic', Logistic), ('Tanh', Tanh), ('ReLU', relu)]:
+    y = func(x)
+    # Force zero for x < 0
+    y_pos = np.where(x < 0, 0, y)
+    # Normalize so max over x >= 0 is 1
+    max_val = y_pos.max()
+    y_norm = y_pos / max_val if max_val != 0 else y_pos
+    plt.plot(x, y_norm, label=name)
+
+plt.xlabel('Input')
+plt.ylabel('Normalized Output')
+plt.title('Part A: Normalized Activation Functions')
+plt.legend()
+plt.grid(True)
+plt.show()
