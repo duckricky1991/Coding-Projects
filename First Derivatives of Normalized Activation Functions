@@ -1,0 +1,37 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Activation functions
+def Logistic(x):
+    return 1 / (1 + np.exp(-x))
+
+def Tanh(x):
+    return np.tanh(x)
+
+def relu(x):
+    return np.maximum(0, x)
+
+# Sample points
+x = np.linspace(-10, 10, 1000)
+
+# Compute normalized activations
+normalized = {}
+for name, func in [('Logistic', Logistic), ('Tanh', Tanh), ('ReLU', relu)]:
+    y = func(x)
+    # Zero for x < 0 and normalize max over x >= 0 to 1
+    y_pos = np.where(x < 0, 0, y)
+    max_val = y_pos.max()
+    y_norm = y_pos / max_val if max_val != 0 else y_pos
+    normalized[name] = y_norm
+
+# Plot first derivatives of normalized activations
+plt.figure(figsize=(8, 6))
+for name, y_norm in normalized.items():
+    dy = np.gradient(y_norm, x)
+    plt.plot(x, dy, label=name)
+plt.xlabel('Input')
+plt.ylabel('d/dx (Normalized Output)')
+plt.title('First Derivatives of Normalized Activation Functions')
+plt.legend()
+plt.grid(True)
+plt.show()
