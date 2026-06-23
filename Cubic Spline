@@ -1,0 +1,54 @@
+% c(i) – plot three chaotic attractors for the 3-species symbiotic map
+
+format compact; clf; close all;
+
+a      = 1.17;      % parameter
+Ntrans = 2000;      % transient iterates
+Nit    = 20000;     % points to plot for each attractor
+
+% Map
+Sym3_map = inline( ...
+  ['a*(P(1)+P(2)+P(3)+1)*[', ...
+     'P(1).*(1-P(1));', ...
+     'P(2).*(1-P(2));', ...
+     'P(3).*(1-P(3))]'], ...
+  'a','P');
+
+% Three ICs, one for each attractor (by symmetry)
+IC1 = [0.9; 0.3; 0.3];   % black attractor
+IC2 = [0.3; 0.9; 0.3];   % blue attractor
+IC3 = [0.3; 0.3; 0.9];   % red attractor
+
+ICs  = [IC1, IC2, IC3];
+cols = {'k.','b.','r.'};   % colors: black, blue, red
+
+figure(1); hold on; grid on; box on;
+set(gca,'FontSize',16);
+
+for k = 1:3
+    P = ICs(:,k);
+
+    % burn in to reach attractor
+    for n = 1:Ntrans
+        P = Sym3_map(a,P);
+    end
+
+    % iterate and store points
+    X = zeros(Nit,1);
+    Y = zeros(Nit,1);
+    Z = zeros(Nit,1);
+    for n = 1:Nit
+        P = Sym3_map(a,P);
+        X(n) = P(1);
+        Y(n) = P(2);
+        Z(n) = P(3);
+    end
+
+    % plot attractor k
+    plot3(X, Y, Z, cols{k}, 'MarkerSize', 4);
+end
+
+xlabel('x_n'); ylabel('y_n'); zlabel('z_n');
+title('3-species symbiotic map: three chaotic attractors (a = 1.17)');
+axis([0.2 1 0.2 1 0.2 1]);   % adjust as needed
+view(40,25);                  % rotate to match pic1–pic3
