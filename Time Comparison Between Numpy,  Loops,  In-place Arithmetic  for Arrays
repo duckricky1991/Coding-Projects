@@ -1,0 +1,46 @@
+#pip install tabulate
+import numpy as np
+import time
+from tabulate import tabulate  # Import tabulate to format the output into a table
+
+# Function to compute the time taken for each method
+def compute_time(array_size):
+    # Create a large array using Python lists
+    a_list = list(range(array_size))
+
+    # Create a large array using NumPy
+    a_numpy = np.arange(array_size)
+
+    # Using loop to compute b = 3 * a + 1
+    start_time = time.time()
+    b_loop = []
+    for element in a_list:
+        b_loop.append(3 * element + 1)
+    loop_time = time.time() - start_time
+
+    # Using NumPy arrays to compute b = 3 * a + 1
+    start_time = time.time()
+    b_numpy = 3 * a_numpy + 1
+    numpy_time = time.time() - start_time
+
+    # Using in-place arithmetic to compute b = 3 * a + 1
+    start_time = time.time()
+    a_numpy *= 3
+    a_numpy += 1
+    inplace_time = time.time() - start_time
+
+    return [array_size, loop_time, numpy_time, inplace_time]
+
+# Table headers
+headers = ["Array Size", "Time using Loop", "Time using NumPy", "Time using In-place Arithmetic"]
+
+# Array sizes to test
+array_sizes = [2*10**6, 2*10**7]
+
+# Generate the table
+table_data = []
+for size in array_sizes:
+    table_data.append(compute_time(size))
+
+# Print the table
+print(tabulate(table_data, headers=headers, tablefmt="grid"))
