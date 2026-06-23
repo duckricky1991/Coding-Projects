@@ -1,0 +1,50 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Activation functions
+def Logistic(x): return 1 / (1 + np.exp(-x))
+def Tanh(x):     return np.tanh(x)
+def relu(x):     return np.maximum(0, x)
+
+# Sampling
+dx = 0.01
+x = np.arange(-10, 10 + dx, dx)
+
+# Normalize functions (zero for x<0, max=1 for x>=0)
+f_norm = {}
+max_vals = {}
+for name, func in [('Logistic', Logistic), ('Tanh', Tanh), ('ReLU', relu)]:
+    y = func(x)
+    y_pos = np.where(x < 0, 0, y)
+    m = y_pos.max()
+    max_vals[name] = m
+    f_norm[name] = y_pos / m
+
+# Analytic derivatives of normalized functions
+d_analytic = {}
+for name in f_norm:
+    if name == 'Logistic':
+        orig = Logistic(x)
+        deriv = orig * (1 - orig) / max_vals[name]
+        d_analytic[name] = np.where(x < 0, 0, deriv)
+    elif name == 'Tanh':
+        orig = Tanh(x)
+        deriv = (1 - orig**2) / max_vals[name]
+        d_analytic[name] = np.where(x < 0, 0, deriv)
+    else:  # ReLU
+        d_analytic[name] = np.where(x > 0, 1, 0)
+
+# Numerical derivative via central finite difference
+d_numeric = {name: np.gradient(y, dx) for name, y in f_norm.items()}
+
+# Part (c): Plot analytic vs. numeric derivatives
+for name in ['Logistic', 'Tanh', 'ReLU']:
+    plt.figure(figsize=(8, 5))
+    plt.plot(x, d_analytic[name], label='Analytic derivative', linewidth=2)
+    plt.plot(x, d_numeric[name], '--', label='Finite-difference derivative')
+    plt.title(f'{name}: Analytic vs Finite-Difference Derivative')
+    plt.xlabel('Input')
+    plt.ylabel("d/dx (Normalized f)")
+    plt.legend()
+    plt.grid(True)
+    plt.show()
