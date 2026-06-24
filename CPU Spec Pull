@@ -1,0 +1,41 @@
+import signal
+import time
+import platform
+
+# Function to check if a number is prime
+def is_prime(num):
+    if num <= 1:
+        return False
+    if num == 2:
+        return True
+    if num % 2 == 0:
+        return False
+    for i in range(3, int(num**0.5) + 1, 2):
+        if num % i == 0:
+            return False
+    return True
+
+# Function to find the largest prime number within a time limit
+def find_largest_prime():
+    largest_prime = 2
+    num = 3
+
+    def alarm_handler(signum, frame):
+        raise TimeoutError("Time's up!")
+
+    signal.signal(signal.SIGALRM, alarm_handler)
+    signal.alarm(20)  # Set the alarm for 20 seconds
+
+    try:
+        while True:
+            if is_prime(num):
+                largest_prime = num
+            num += 2
+    except TimeoutError:
+        print("Time's up! Largest prime found within the time limit:", largest_prime)
+        signal.alarm(0)  # Disable the alarm
+
+if __name__ == "__main__":
+    print("CPU Specs:", platform.processor())
+    print("Operating System:", platform.system(), platform.release())
+    find_largest_prime()
