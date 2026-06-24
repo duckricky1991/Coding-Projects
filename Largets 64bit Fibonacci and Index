@@ -1,0 +1,13 @@
+import numpy as np
+
+max_value = np.iinfo(np.int64).max
+
+fib = [0,1]
+while True:
+    next_fib = fib[-1] + fib[-2]
+    if next_fib > max_value:
+        break
+    fib.append(next_fib)
+
+print("The largest Fibonacci number representable by a 64-bit integer is:", fib[-1])
+print("Index of that Fibonacci number:", len(fib)-1)
