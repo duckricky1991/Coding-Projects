@@ -1,0 +1,79 @@
+import sympy as sp
+
+# Define symbols for the independent variable and arbitrary constants
+x, a, b = sp.symbols('x a b')
+
+# -------------------------------
+# 1. Function: f1(x) = (1 - x) / (2 + x)
+f1 = (1 - x) / (2 + x)
+# Compute the derivative of f1 with respect to x
+f1_derivative = sp.diff(f1, x)
+# Simplify the resulting derivative
+f1_derivative_simpl = sp.simplify(f1_derivative)
+print("f1'(x) =", f1_derivative_simpl)
+# Expected output: -3/(x + 2)**2
+
+# -------------------------------
+# 2. Function: f2(x) = a^x
+f2 = a**x
+f2_derivative = sp.diff(f2, x)
+print("\nf2'(x) =", f2_derivative)
+# Expected output: a^x*log(a)
+
+# -------------------------------
+# 3. Function: f3(x) = sqrt(x*(a + b*x))
+f3 = sp.sqrt(x * (a + b*x))
+f3_derivative = sp.diff(f3, x)
+f3_derivative_simpl = sp.simplify(f3_derivative)
+print("\nf3'(x) =", f3_derivative_simpl)
+# Expected output: (a + 2*b*x)/(2*sqrt(x*(a + b*x)))
+
+# -------------------------------
+# 4. Function: f4(x) = (x^2 + x - 2) / (x^3 + 6)
+f4 = (x**2 + x - 2) / (x**3 + 6)
+f4_derivative = sp.diff(f4, x)
+f4_derivative_simpl = sp.simplify(f4_derivative)
+print("\nf4'(x) =", f4_derivative_simpl)
+# Expected output: ((2*x+1)*(x**3+6) - 3*x**2*(x**2+x-2))/(x**3+6)**2
+
+# -------------------------------
+# 5. Function: f5(x) = sec(x) / (1 + tan(x))
+# Sympy provides secant through sp.sec(x) and tangent through sp.tan(x)
+f5 = sp.sec(x) / (1 + sp.tan(x))
+f5_derivative = sp.diff(f5, x)
+f5_derivative_simpl = sp.simplify(f5_derivative)
+print("\nf5'(x) =", f5_derivative_simpl)
+# Expected output: sec(x)*(tan(x)-1)/(tan(x)+1)**2
+
+# -------------------------------
+# 6. Functions for part (6):
+# (i) Function: f6a(x) = sin(x^2)
+f6a = sp.sin(x**2)
+f6a_derivative = sp.diff(f6a, x)
+f6a_derivative_simpl = sp.simplify(f6a_derivative)
+print("\nf6a'(x) =", f6a_derivative_simpl)
+# Expected output: 2*x*cos(x**2)
+
+# (ii) Function: f6b(x) = sin^2(x)
+f6b = sp.sin(x)**2
+f6b_derivative = sp.diff(f6b, x)
+f6b_derivative_simpl = sp.simplify(f6b_derivative)
+print("\nf6b'(x) =", f6b_derivative_simpl)
+# Expected output: sin(2*x)
+
+# -------------------------------
+# 7. Function: f7(x) = exp(sin(x))
+f7 = sp.exp(sp.sin(x))
+f7_derivative = sp.diff(f7, x)
+f7_derivative_simpl = sp.simplify(f7_derivative)
+print("\nf7'(x) =", f7_derivative_simpl)
+# Expected output: exp(sin(x))*cos(x)
+
+# -------------------------------
+# 8. Function: f8(x) = sin(cos(tan(x)))
+f8 = sp.sin(sp.cos(sp.tan(x)))
+f8_derivative = sp.diff(f8, x)
+f8_derivative_simpl = sp.simplify(f8_derivative)
+print("\nf8'(x) =", f8_derivative_simpl)
+# Expected output: -cos(cos(tan(x)))*sin(tan(x))*sec(x)**2
+
