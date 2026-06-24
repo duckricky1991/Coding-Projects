@@ -1,0 +1,76 @@
+import numpy as np
+
+# Parameters
+sigma = 0.2
+y0 = 0.01
+t_end = 10.0
+dt = 0.001
+
+# Time grid
+t = np.arange(0, t_end + dt, dt)
+
+# Euler method
+y_euler = np.empty_like(t)
+y_euler[0] = y0
+for n in range(len(t) - 1):
+    y_euler[n+1] = y_euler[n] + dt * sigma * y_euler[n]
+
+# Print a few sample points and the final value
+print("Euler approximation (first 10 points):")
+for ti, yi in zip(t[:10], y_euler[:10]):
+    print(f"  t = {ti:.3f}, y = {yi:.6f}")
+print("  …")
+print(f"Final at t = {t[-1]:.3f}: y = {y_euler[-1]:.6f}")
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Recompute or load your arrays
+sigma = 0.2
+y0 = 0.01
+t_end = 10.0
+dt = 0.001
+t = np.arange(0, t_end + dt, dt)
+
+# Euler solution
+y_euler = np.empty_like(t)
+y_euler[0] = y0
+for n in range(len(t) - 1):
+    y_euler[n+1] = y_euler[n] + dt * sigma * y_euler[n]
+
+# Analytical solution
+y_true = y0 * np.exp(sigma * t)
+
+# Plot both on the same axes
+plt.figure(figsize=(8,5))
+plt.plot(t, y_euler, label='Euler (Δt=0.001)', linewidth=2)
+plt.plot(t, y_true, '--', label='Analytical', linewidth=2)
+plt.xlabel('t')
+plt.ylabel('y')
+plt.title('t–y Comparison: Euler vs Analytical')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+#Analytical Calculations
+import numpy as np
+
+# Parameters (same as above)
+sigma = 0.2
+y0 = 0.01
+t_end = 10.0
+dt = 0.001
+
+# Time grid
+t = np.arange(0, t_end + dt, dt)
+
+# Analytical solution
+y_true = y0 * np.exp(sigma * t)
+
+# Print a few sample points and the final value
+print("Analytical solution (first 10 points):")
+for ti, yi in zip(t[:10], y_true[:10]):
+    print(f"  t = {ti:.3f}, y = {yi:.6f}")
+print("  …")
+print(f"Final at t = {t[-1]:.3f}: y = {y_true[-1]:.6f}")
