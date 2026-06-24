@@ -1,0 +1,72 @@
+import sympy as sp
+
+# Define symbols for the independent variable and arbitrary constants.
+x, a, b = sp.symbols('x a b')
+
+# ----------------------------------------------------------
+# 1. Integral: ∫ e^(-x^2) dx
+f1 = sp.exp(-x**2)
+f1_integral = sp.integrate(f1, x)
+f1_integral_simpl = sp.simplify(f1_integral)
+print("Integral 1: ∫ e^(-x^2) dx =")
+print(f1_integral_simpl)
+# Expected output: sqrt(pi)*erf(x)/2 (in terms of the error function)
+
+# ----------------------------------------------------------
+# 2. Integral: ∫ [sqrt(1 + x^2) / x^2] dx
+# Interpreting the integrand as (sqrt(1+x^2))/(x^2)
+f2 = sp.sqrt(1 + x**2) / x**2
+f2_integral = sp.integrate(f2, x)
+f2_integral_simpl = sp.simplify(f2_integral)
+print("\nIntegral 2: ∫ (sqrt(1+x^2))/(x^2) dx =")
+print(f2_integral_simpl)
+
+# ----------------------------------------------------------
+# 3. Integral: ∫ [1 / (x^2 * sqrt(x^2+4))] dx
+f3 = 1 / (x**2 * sp.sqrt(x**2 + 4))
+f3_integral = sp.integrate(f3, x)
+f3_integral_simpl = sp.simplify(f3_integral)
+print("\nIntegral 3: ∫ 1/(x^2*sqrt(x^2+4)) dx =")
+print(f3_integral_simpl)
+
+# ----------------------------------------------------------
+# 4. Integral: ∫ [x * sqrt(x^2+4)] dx
+f4 = x * sp.sqrt(x**2 + 4)
+f4_integral = sp.integrate(f4, x)
+f4_integral_simpl = sp.simplify(f4_integral)
+print("\nIntegral 4: ∫ x*sqrt(x^2+4) dx =")
+print(f4_integral_simpl)
+
+# ----------------------------------------------------------
+# 5. Integral: ∫ [1 / sqrt(x^2 - a^2)] dx
+# Typically, this integral leads to an inverse hyperbolic function.
+f5 = 1 / sp.sqrt(x**2 - a**2)
+f5_integral = sp.integrate(f5, x)
+f5_integral_simpl = sp.simplify(f5_integral)
+print("\nIntegral 5: ∫ 1/sqrt(x^2 - a^2) dx =")
+print(f5_integral_simpl)
+
+# ----------------------------------------------------------
+# 6. Integral: ∫ [1 / (x^2 - a^2)] dx
+# The result is usually given in terms of logarithms.
+f6 = 1 / (x**2 - a**2)
+f6_integral = sp.integrate(f6, x)
+f6_integral_simpl = sp.simplify(f6_integral)
+print("\nIntegral 6: ∫ 1/(x^2 - a^2) dx =")
+print(f6_integral_simpl)
+
+# ----------------------------------------------------------
+# 7. Integral: ∫ e^(sqrt(x)) dx
+f7 = sp.exp(sp.sqrt(x))
+f7_integral = sp.integrate(f7, x)
+f7_integral_simpl = sp.simplify(f7_integral)
+print("\nIntegral 7: ∫ e^(sqrt(x)) dx =")
+print(f7_integral_simpl)
+
+# ----------------------------------------------------------
+# 8. Integral: ∫ x^3 * sin(x) dx
+f8 = x**3 * sp.sin(x)
+f8_integral = sp.integrate(f8, x)
+f8_integral_simpl = sp.simplify(f8_integral)
+print("\nIntegral 8: ∫ x^3*sin(x) dx =")
+print(f8_integral_simpl)
