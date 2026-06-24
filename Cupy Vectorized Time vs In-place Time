@@ -1,0 +1,27 @@
+import cupy as cp
+import time
+
+# Tried to create a smaller array to ensure GPU had enough memory
+array_sizes = [2*10**6, 2*10**7]
+
+for n in array_sizes:
+    # Analyzes memory space and frees it for the array
+    cp.get_default_memory_pool().free_all_blocks()
+
+    # Makes an array and then specifies the formula and variables
+    a = cp.arange(n)
+    start = time.time()
+    b = 3 * a + 1
+    cp.cuda.Stream.null.synchronize()
+    vectorized_time = time.time() - start
+
+    
+    cp.get_default_memory_pool().free_all_blocks()
+    a = cp.arange(n)
+    start = time.time()
+    a *= 3
+    a += 1
+    cp.cuda.Stream.null.synchronize()
+    inplace_time = time.time() - start
+
+    print(f"Array Size: {n}, Vectorized Time: {vectorized_time:.6f} s, In-place Time: {inplace_time:.6f} s")
